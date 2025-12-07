@@ -60,7 +60,7 @@ def insert_movies(movie_dict, director_ids, cursor):
             int(info['release_year'].split()[0]) if info['release_year'] else None
         ))
 
-def insert_data(movie_dict, directors):
+def insert_data1(movie_dict, directors):
     conn,cursor=create_database()
 
     author_ids=insert_directors(directors,cursor)
