@@ -7,7 +7,7 @@ class MovieBase(BaseModel):
     genres: List[str]
     average_rating: Optional[float] = None
     release_year: Optional[int] = None
-    desc: str
+    description: str
 
 class BookCreate(MovieBase):
     pass

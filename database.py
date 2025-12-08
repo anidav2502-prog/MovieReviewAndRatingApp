@@ -13,8 +13,7 @@ def create_database():
         CREATE TABLE IF NOT EXISTS directors(
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT UNIQUE,
-            birthday TEXT,
-            works TEXT
+            birthday DATE
         )
     ''')
 
@@ -26,8 +25,18 @@ def create_database():
             genres TEXT,
             average_rating REAL,
             release_year INTEGER,
-            desc TEXT
+            description TEXT,
             FOREIGN KEY (director_id) REFERENCES directors(id)
+        )
+    ''')
+
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS reviews(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        movie_id INTEGER,
+        rating REAL,
+        comment TEXT,
+        FOREIGN KEY (movie_id) REFERENCES movie(id)
         )
     ''')
 
@@ -39,8 +48,8 @@ def insert_directors(directors, cursor):
 
     for director in directors:
         cursor.execute('''
-            INSERT OR IGNORE INTO director(name,birthday,works)
-            VALUES (?,?,?)
+            INSERT OR IGNORE INTO directors(name)
+            VALUES (?)
         ''', (director,))
         cursor.execute('SELECT id FROM directors WHERE name=?', (director,))
         director_ids[director]=cursor.fetchone()[0]
@@ -50,7 +59,7 @@ def insert_directors(directors, cursor):
 def insert_movies(movie_dict, director_ids, cursor):
     for (title,director), info in movie_dict.items():
         cursor.execute('''
-            INSERT INTO movies (title, director_id, genres, average_rating, release_year, desc)
+            INSERT INTO movies (title, director_id, genres, average_rating, release_year, description)
             VALUES(?,?,?,?,?,?)
         ''', (
             title,
@@ -60,12 +69,12 @@ def insert_movies(movie_dict, director_ids, cursor):
             int(info['release_year'].split()[0]) if info['release_year'] else None
         ))
 
-def insert_data1(movie_dict, directors):
+def insert_data1(movie_dict, director_ids):
     conn,cursor=create_database()
 
-    author_ids=insert_directors(directors,cursor)
+    director_ids=insert_directors(director_ids,cursor)
 
-    insert_movies(movie_dict, directors, cursor)
+    insert_movies(movie_dict, director_ids, cursor)
 
     conn.commit()
     conn.close()
