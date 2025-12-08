@@ -36,7 +36,7 @@ def create_database():
         movie_id INTEGER,
         rating REAL,
         comment TEXT,
-        FOREIGN KEY (movie_id) REFERENCES movie(id)
+        FOREIGN KEY (movie_id) REFERENCES movies(id)
         )
     ''')
 
