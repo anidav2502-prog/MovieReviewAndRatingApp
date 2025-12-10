@@ -74,4 +74,4 @@ def delete_reviews(review_id: int):
         raise HTTPException(status_code=404, detail='Review not found')
     conn.commit()
     conn.close()
-    return {"detail": "Review deleted"}
+    return {"detail": "Review deleted!"}
