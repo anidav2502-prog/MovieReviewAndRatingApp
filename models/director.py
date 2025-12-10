@@ -4,7 +4,7 @@ import datetime
 
 
 class DirectorBase(BaseModel):
-    director_name: str
+    name: str
     birthday: Optional[datetime.date]=None
     works: List[str]
 

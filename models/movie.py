@@ -9,11 +9,11 @@ class MovieBase(BaseModel):
     release_year: Optional[int] = None
     description: str
 
-class BookCreate(MovieBase):
+class MovieCreate(MovieBase):
     pass
 
-class BookResponse(MovieBase):
+class MovieResponse(MovieBase):
     id: int
 
-class Book(MovieBase):
+class Movie(MovieBase):
     id: int
